@@ -9,17 +9,18 @@ import Form from "./form";
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-	  userList:[],
-        open: false,
-        showHideDemo: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            //show Form on Edit button
+            userList:[],
+                open: false,
+        }
+        this.removeUser = this.removeUser.bind(this)
+        this.addUser = this.addUser.bind(this)
+        // this.hideComponent = this.hideComponent.bind(this);
+        this.getComponent = this.getComponent.bind(this);
     }
-    this.removeUser = this.removeUser.bind(this)
-    this.addUser = this.addUser.bind(this)
-    this.hideComponent = this.hideComponent.bind(this);
-  }
 
     // adds users to table onSubmit()
     addUser(userData) {
@@ -47,6 +48,15 @@ class App extends Component {
         .then(() => console.log("Document successfully deleted!"))
         .catch((error) => console.error("Error removing document: ", error))
     }
+    
+    /* This will trigger the Form to open when Edit is clicked */
+    getComponent() {
+        console.log("Edit Button")
+        this.setState({
+            isOpen: true,
+          });
+        console.log(this.state.isOpen)
+    }
 
 
     onChange = updatedValue => {
@@ -57,7 +67,6 @@ class App extends Component {
         }
         });
     };
-
 
     componentDidMount() {
         this.fetchUserList()
@@ -79,16 +88,17 @@ class App extends Component {
     }
 
     render() {
+        
         return (
         <div className="container">
                 <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} />
                 {/* <Form addUser={() => this.props.addUser()} onClose={(e) => this.setState({ isOpen: false})} onChange={fields => this.onChange(fields)}  /> */}
-                <button onClick = {(e) => this.setState({ isOpen: true})}> Add User 
+                <button onClick = {(e) => this.setState({ isOpen: true})} > Add User 
                 </button>
-            
-                <UserTable userList={this.state.userList} removeUser={this.removeUser}/>
-
+                
+                <UserTable getComponent={this.getComponent} userList={this.state.userList} removeUser={this.removeUser}/>
         </div>
+        
         
         );
     }

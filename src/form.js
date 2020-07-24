@@ -49,7 +49,6 @@ onSubmit(e) {
         Groups: this.state.Groups,
         isActive: this.state.isActive
     }
-
 	firebase.firestore().collection('users').add(user)
 		.then(() => {
             this.setState({name: ''})
@@ -58,6 +57,7 @@ onSubmit(e) {
 			this.setState({phone_number:''})
 			this.setState({Groups:''})
         })
+        
     }
     render() {
         return (

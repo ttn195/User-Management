@@ -1,3 +1,7 @@
 #deleteUserBtn {
     cursor: pointer;
 }
+
+#editUserBtn {
+    cursor: pointer;
+}

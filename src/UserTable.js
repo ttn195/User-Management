@@ -5,7 +5,9 @@ import ReactTable, { useRowSelect } from "react-table";
 import makeData from './makeData';
 import  { db, auth } from './firebase'
 import { useTable } from 'react-table'
+import Form from './form'
 import './style/table.css'
+
 
 const Styles = styled.div`
 padding: 0rem;
@@ -25,6 +27,7 @@ padding: 5px;
 }
 
 `;
+
 
 function Table({ columns, data }) {
     // Use the state and functions returned from useTable to build your UI
@@ -68,6 +71,7 @@ function Table({ columns, data }) {
 }
 
 class UserTable extends Component {
+
     render() {
     const columns = [
         {
@@ -110,12 +114,13 @@ class UserTable extends Component {
         id: "edit",
         Header: "",
         accessor: "edit",
-        Cell: (row) => (
-            <img src="https://www.pinclipart.com/picdir/middle/345-3450678_edit-pencil-outline-in-circular-button-comments-play.png" alt="" width="25" height="25"/>
-            // <div>
-            //       onClick={() => handleEdit(row.original)}>
-            //       onClick={() => handleDelete(row.original)}>
-            //  </div>
+        Cell: ({row}) => (
+            <img src="https://www.pinclipart.com/picdir/middle/345-3450678_edit-pencil-outline-in-circular-button-comments-play.png" alt="" width="25" height="25"
+            onClick = {this.props.getComponent}
+            title="Edit User"
+            id="editUserBtn"
+            />
+        
         )
         },
         {
@@ -138,9 +143,13 @@ class UserTable extends Component {
     ]
 
     return (
+        <div className='form-container'>
         <Styles>
-        <Table columns={columns} data={this.props.userList}/>
+        <Table columns={columns} data={this.props.userList} />
         </Styles>
+        <div>
+            </div>
+        </div>
         )
     }
 }
