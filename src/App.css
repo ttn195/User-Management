@@ -2,16 +2,11 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.Navigation {
+  margin-top: 20px;
+  margin-bottom: 20ps;
+  margin-left: auto;
   }
-}
 
 .App-header {
   background-color: #282c34;
