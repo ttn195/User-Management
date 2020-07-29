@@ -64,7 +64,7 @@ class UserNavBar extends Component{
                 /* this calls on Form componenet, grabbing the data passed onto it by it's children componenets. and takes the data from 
                 addUser() and passes its values into this.props.addUser(user) and passes those values into UserNavBar/s parents component, 
                 in App.Js */
-                addUser={(user) => this.props.addUser(user)} onClose={() => this.props.onClose} onChange={fields => this.onChange(fields)}  />
+                addUser={(user) => this.props.addUser(user)} onChange={fields => this.onChange(fields)}  />
 
             </div>
         );

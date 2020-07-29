@@ -18,21 +18,16 @@ class App extends Component {
         }
         this.removeUser = this.removeUser.bind(this)
         this.addUser = this.addUser.bind(this)
-        // this.hideComponent = this.hideComponent.bind(this);
         this.getComponent = this.getComponent.bind(this);
     }
 
     // adds users to table onSubmit()
     addUser(userData) {
         console.log('[App.js]Adding user')
-        let newName = userData.name
         console.log(userData)
         let userList = this.state.userList
         userList.push(userData)
         this.setState({userList})
-        // this.setState({ userList });
-        // var elements = this.state.items.slice();
-        // this.setState({userList})
     }   
 
     // removes users from table
@@ -88,18 +83,14 @@ class App extends Component {
     }
 
     render() {
-        
+
         return (
         <div className="container">
                 <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} />
-                {/* <Form addUser={() => this.props.addUser()} onClose={(e) => this.setState({ isOpen: false})} onChange={fields => this.onChange(fields)}  /> */}
-                <button onClick = {(e) => this.setState({ isOpen: true})} > Add User 
-                </button>
-                
+                <Form addUser={this.addUser} onChange={fields => this.onChange(fields)}/>
                 <UserTable getComponent={this.getComponent} userList={this.state.userList} removeUser={this.removeUser}/>
+
         </div>
-        
-        
         );
     }
 }

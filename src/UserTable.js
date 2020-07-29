@@ -8,7 +8,6 @@ import { useTable } from 'react-table'
 import Form from './form'
 import './style/table.css'
 
-
 const Styles = styled.div`
 padding: 0rem;
 
@@ -147,8 +146,7 @@ class UserTable extends Component {
         <Styles>
         <Table columns={columns} data={this.props.userList} />
         </Styles>
-        <div>
-            </div>
+
         </div>
         )
     }

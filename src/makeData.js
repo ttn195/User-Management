@@ -1,4 +1,3 @@
-import namor from 'namor'
 
 const range = len => {
   const arr = []

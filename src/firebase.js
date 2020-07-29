@@ -1,7 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-import { reduceHooks } from 'react-table';
 
   // Your web app's Firebase configuration
   var firebaseConfig = {
