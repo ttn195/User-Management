@@ -2,11 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import UserNavBar from './UserNavBar';
 import UserTable from './UserTable';
-import  { db, auth } from './firebase'
-import Form from "./form";
-
-
-
+import  { db } from './firebase'
 
 class App extends Component {
     constructor(props) {
@@ -14,11 +10,10 @@ class App extends Component {
         this.state = {
             //show Form on Edit button
             userList:[],
-                open: false,
         }
         this.removeUser = this.removeUser.bind(this)
         this.addUser = this.addUser.bind(this)
-        this.getComponent = this.getComponent.bind(this);
+        this.editUser = this.editUser.bind(this)
     }
 
     // adds users to table onSubmit()
@@ -45,14 +40,11 @@ class App extends Component {
     }
     
     /* This will trigger the Form to open when Edit is clicked */
-    getComponent() {
-        console.log("Edit Button")
-        this.setState({
-            isOpen: true,
-          });
-        console.log(this.state.isOpen)
+    editUser() {
+        let userList = this.state.userList
+        this.setState({userList})
+        console.log("edit user")
     }
-
 
     onChange = updatedValue => {
         this.setState({
@@ -86,9 +78,10 @@ class App extends Component {
 
         return (
         <div className="container">
-                <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} />
-                <Form addUser={this.addUser} onChange={fields => this.onChange(fields)}/>
-                <UserTable getComponent={this.getComponent} userList={this.state.userList} removeUser={this.removeUser}/>
+                {/* <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} /> */}
+                <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
+                {/* <Form addUser={this.addUser} onChange={fields => this.onChange(fields)}/> */}
+                <UserTable showEditModal={this.showEditModal} userList={this.state.userList} removeUser={this.removeUser}/>
 
         </div>
         );

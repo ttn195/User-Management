@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
 import styled from 'styled-components';
-import ReactTable, { useRowSelect } from "react-table";  
-import makeData from './makeData';
-import  { db, auth } from './firebase'
 import { useTable } from 'react-table'
 import Form from './form'
 import './style/table.css'
@@ -26,7 +23,6 @@ padding: 5px;
 }
 
 `;
-
 
 function Table({ columns, data }) {
     // Use the state and functions returned from useTable to build your UI
@@ -70,15 +66,23 @@ function Table({ columns, data }) {
 }
 
 class UserTable extends Component {
+    constructor() {
+        super()
+        this.state = {
+            editUserAction: false,
+            userData: {}
+        }
+    }
 
     render() {
+
     const columns = [
         {
         id: "",
         Header: "",
         accessor: "icon",
-        Cell: (row) => (
-            <img src = "https://static.thenounproject.com/png/638636-200.png" width="25" height="25"/>
+        Cell: () => (
+            <img src = "https://static.thenounproject.com/png/638636-200.png" alt="" width="25" height="25"/>
         )
         },
         {
@@ -115,11 +119,24 @@ class UserTable extends Component {
         accessor: "edit",
         Cell: ({row}) => (
             <img src="https://www.pinclipart.com/picdir/middle/345-3450678_edit-pencil-outline-in-circular-button-comments-play.png" alt="" width="25" height="25"
-            onClick = {this.props.getComponent}
+            onClick = {() => {
+                let currUser = {
+                    name: row.original.name,
+                    email: row.original.email,
+                    phone_number: row.original.phone_number,
+                    isActive: row.original.isActive,
+                    Groups: row.original.Groups,
+                }
+                this.setState({
+                    editUserAction: true,
+                    userData: currUser
+                })
+                
+                // console.log('hi ' + this.state.editUserAction)
+            }}
             title="Edit User"
             id="editUserBtn"
             />
-        
         )
         },
         {
@@ -140,13 +157,16 @@ class UserTable extends Component {
         ]
         }
     ]
-
     return (
         <div className='form-container'>
-        <Styles>
-        <Table columns={columns} data={this.props.userList} />
-        </Styles>
+            <Styles>
+                <Table columns={columns} data={this.props.userList} />
 
+                <Form editUserInTable={(user) => this.props.editUser(user)} onChange={fields => this.onChange(fields)}
+                    editUserAction={this.state.editUserAction} userData={this.state.userData}
+                    handler={(userData) => this.props.editUser(userData)}
+                    />
+            </Styles>
         </div>
         )
     }

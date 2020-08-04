@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav'
 import Form from './form'
 
@@ -39,8 +38,8 @@ var userList= [
 ]
 
 class UserNavBar extends Component{
-    constructor(props) {
-        super(props);
+    constructor() {
+        super()
         this.state = {
             userList: []
         };
@@ -49,43 +48,43 @@ class UserNavBar extends Component{
     componentDidMount() {
         this.setState({userList:userList})
     }
+    // this calls on Form componenet, grabbing the data passed onto it by it's children componenets. and takes the data from 
+    // addUser() and passes its values into this.props.addUser(user) and passes those values into UserNavBar/s parents component, 
+    // in App.Js 
 
      //conditional rendering
      render() {
-        let dialog = (
-            <div style={dialogStyles}>
+        // let dialog = (
+        //     <div style={dialogStyles}>
 
-                <button style={dialogCloseButtonStyles} onClick = {this.props.onClose} >
-                    x
-                    </button>
+        //         <button style={dialogCloseButtonStyles} onClick = {this.props.onClose} >
+        //             x
+        //             </button>
                 
                 
-                <Form 
-                /* this calls on Form componenet, grabbing the data passed onto it by it's children componenets. and takes the data from 
-                addUser() and passes its values into this.props.addUser(user) and passes those values into UserNavBar/s parents component, 
-                in App.Js */
-                addUser={(user) => this.props.addUser(user)} onChange={fields => this.onChange(fields)}  />
+        //         <Form addUserToTable={(user) => this.props.addUser(user)} onChange={fields => this.onChange(fields)} hitThis={() => console.log('hitting this')} />
 
-            </div>
-        );
+        //     </div>
+        // );
         
-        if (!this.props.isOpen) {
-            dialog = null
-        }
+        // if (!this.props.isOpen) {
+        //     dialog = null
+        // }
 
         return(
-            <div>
-                <h3 className="Navigation"> User Management </h3> 
 
+            <div>
+                <Form addUserToTable={(user) => this.props.addUser(user)} onChange={fields => this.onChange(fields)} />
+                <h3 className="Navigation"> User Management </h3> 
+                
                 <Nav className = "nav" fill variant="tabs" as="ul">
                     <Nav.Item as="li"> User </Nav.Item>
                     <Nav.Item as="li"> Group </Nav.Item>
                     <Nav.Item as="li"> Deleted </Nav.Item>
                 </Nav>
-
                 <div>
                     <br/>
-                {dialog}
+                    
                 </div>
             </div>
         )
