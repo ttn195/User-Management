@@ -28,6 +28,14 @@ class App extends Component {
         .then(() => console.log("Successfully added user"))
     }   
 
+    //This will trigger the Form to open when Edit is clicked 
+    editUser(userData, {idx}) {
+        console.log("new user:", userData)
+        this.setState({userData})
+        db.collection("users").doc(idx).update(userData)
+        .then(() => console.log("User successfully updated!"))
+    }
+
     //Removes users from table
     removeUser({idx}) {
         //Gets new userList
@@ -40,13 +48,6 @@ class App extends Component {
         db.collection("users").doc(uid).delete()
         .then(() => console.log("Document successfully deleted!"))
         .catch((error) => console.error("Error removing document: ", error))
-    }
-    
-    //This will trigger the Form to open when Edit is clicked 
-    editUser() {
-        let userList = this.state.userList
-        this.setState({userList})
-        console.log("edit user")
     }
 
     onChange = updatedValue => {
@@ -77,7 +78,7 @@ class App extends Component {
     }
 
     render() {
-
+console.log(this.state.userList)
         return (
         <div className="container">
                 {/* <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} /> */}

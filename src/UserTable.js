@@ -75,6 +75,7 @@ class UserTable extends Component {
             phone_number: '',
             isActive: '',
             Groups: '',
+            editIdx: '',
         }
         this.showEditUserBox = this.showEditUserBox.bind(this)
         this.handleNameChange = this.handleNameChange.bind(this)
@@ -114,6 +115,7 @@ class UserTable extends Component {
     }
 
     showEditUserBox(user) {
+        console.log("editUserAction value:" ,this.state.editUserAction)
         if (this.state.editUserAction){
             console.log("showEditUserBox", user) 
             this.setState({
@@ -139,7 +141,9 @@ class UserTable extends Component {
         }
         if (this.state.editUserAction) {
             console.log("edit user")
-            this.props.editUser()
+            let idx = this.state.editIdx
+            console.log("idx: ", idx)
+            this.props.editUser(user, {"idx": idx})
         } else {
             console.log("add new user")
             this.props.addUser(user)
@@ -150,12 +154,12 @@ class UserTable extends Component {
     render() {
         const columns = [
             {
-                id: "",
-                Header: "",
-                accessor: "icon",
-                Cell: () => (
-                    <img src = "https://static.thenounproject.com/png/638636-200.png" alt="" width="25" height="25"/>
-                )
+            id: "",
+            Header: "",
+            accessor: "icon",
+            Cell: () => (
+                <img src = "https://static.thenounproject.com/png/638636-200.png" alt="" width="25" height="25"/>
+            )
             },
             {
             Header: ' ',
@@ -201,6 +205,7 @@ class UserTable extends Component {
                     }
                     this.setState({
                         editUserAction: true,
+                        editIdx: row.original.id
                     })
                     this.showEditUserBox(currUser)
                 }}
