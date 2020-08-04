@@ -3,6 +3,7 @@ import './App.css';
 import UserNavBar from './UserNavBar';
 import UserTable from './UserTable';
 import  { db } from './firebase'
+import firebase from './firebase.js'
 
 class App extends Component {
     constructor(props) {
@@ -16,30 +17,32 @@ class App extends Component {
         this.editUser = this.editUser.bind(this)
     }
 
-    // adds users to table onSubmit()
+    //Add user to table when Submit button clicked
     addUser(userData) {
         console.log('[App.js]Adding user')
         console.log(userData)
         let userList = this.state.userList
         userList.push(userData)
         this.setState({userList})
+        firebase.firestore().collection('users').add(userData)
+        .then(() => console.log("Successfully added user"))
     }   
 
-    // removes users from table
+    //Removes users from table
     removeUser({idx}) {
-        // gets new userList
+        //Gets new userList
         let userList = this.state.userList
-        // grabs the ID of each user in the userList
+        //Grabs the ID of each user in the userList
         const uid = this.state.userList[idx].id
         userList.splice(idx, 1)
-        //updates the new changes and sets them
+        //Updates the new changes and sets them
         this.setState({userList})
         db.collection("users").doc(uid).delete()
         .then(() => console.log("Document successfully deleted!"))
         .catch((error) => console.error("Error removing document: ", error))
     }
     
-    /* This will trigger the Form to open when Edit is clicked */
+    //This will trigger the Form to open when Edit is clicked 
     editUser() {
         let userList = this.state.userList
         this.setState({userList})
@@ -67,7 +70,6 @@ class App extends Component {
                 const data = doc.data()
                 data.id = uid
                 users.push(data)
-                console.log(data)
             })
             this.setState({ userList: users})
         })
@@ -80,8 +82,10 @@ class App extends Component {
         <div className="container">
                 {/* <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} /> */}
                 <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
+                
                 {/* <Form addUser={this.addUser} onChange={fields => this.onChange(fields)}/> */}
-                <UserTable showEditModal={this.showEditModal} userList={this.state.userList} removeUser={this.removeUser}/>
+                <UserTable userList={this.state.userList} removeUser={this.removeUser}
+                editUser={this.editUser} addUser={this.addUser} />
 
         </div>
         );
