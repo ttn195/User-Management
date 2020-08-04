@@ -131,8 +131,6 @@ class UserTable extends Component {
                     editUserAction: true,
                     userData: currUser
                 })
-                
-                // console.log('hi ' + this.state.editUserAction)
             }}
             title="Edit User"
             id="editUserBtn"
