@@ -29,9 +29,15 @@ class App extends Component {
     }   
 
     //This will trigger the Form to open when Edit is clicked 
-    editUser(userData, {idx}) {
-        console.log("new user:", userData)
-        this.setState({userData})
+    editUser(userData, {idx}) { 
+        let userList = this.state.userList
+        let index = userList.findIndex((user) => user.id === idx)
+        if (index !== -1) {
+            let uid = userList[index].id
+            userList[index] = userData
+            userList[index].id = uid
+            this.setState({userList: userList})
+        }
         db.collection("users").doc(idx).update(userData)
         .then(() => console.log("User successfully updated!"))
     }
@@ -78,7 +84,7 @@ class App extends Component {
     }
 
     render() {
-console.log(this.state.userList)
+        console.log(this.state.userList)
         return (
         <div className="container">
                 {/* <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} /> */}

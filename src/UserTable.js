@@ -114,9 +114,8 @@ class UserTable extends Component {
         })
     }
 
-    showEditUserBox(user) {
-        console.log("editUserAction value:" ,this.state.editUserAction)
-        if (this.state.editUserAction){
+    showEditUserBox(user, isEditAction) {
+        if (isEditAction) {
             console.log("showEditUserBox", user) 
             this.setState({
                 name: user.name,
@@ -204,10 +203,10 @@ class UserTable extends Component {
                         Groups: row.original.Groups,
                     }
                     this.setState({
-                        editUserAction: true,
-                        editIdx: row.original.id
+                            editUserAction: true,
+                            editIdx: row.original.id
                     })
-                    this.showEditUserBox(currUser)
+                    this.showEditUserBox(currUser, true)
                 }}
                 title="Edit User"
                 id="editUserBtn"
