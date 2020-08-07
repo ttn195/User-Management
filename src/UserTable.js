@@ -146,6 +146,12 @@ class UserTable extends Component {
         } else {
             console.log("add new user")
             this.props.addUser(user)
+            if (this.state.isEditAction) {
+                let idx = this.state.editIdx
+                console.log("edit user")
+                console.log("idx: ", idx)
+                this.props.editUser(user, {"idx": idx})
+            }
         }
         this.closeDialog()
     }

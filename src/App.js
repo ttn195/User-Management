@@ -3,7 +3,8 @@ import './App.css';
 import UserNavBar from './UserNavBar';
 import UserTable from './UserTable';
 import  { db } from './firebase'
-import firebase from './firebase.js'
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 class App extends Component {
     constructor(props) {
@@ -19,12 +20,13 @@ class App extends Component {
 
     //Add user to table when Submit button clicked
     addUser(userData) {
-        console.log('[App.js]Adding user')
-        console.log(userData)
+        const userRef = db.collection('users').doc()
+        console.log('userData', userData)
         let userList = this.state.userList
+        userData.id = userRef.id
         userList.push(userData)
         this.setState({userList})
-        firebase.firestore().collection('users').add(userData)
+        firebase.firestore().collection('users').doc(userRef.id).set(userData)
         .then(() => console.log("Successfully added user"))
     }   
 
