@@ -177,9 +177,9 @@ class UserTable extends Component {
             },
             {
             Header: "isActive",
-            Cell: ({row}) => {
-                return row.original.isActive.toString()
-            },
+            // Cell: ({row}) => {
+            //     return row.original.isActive.toString()
+            // },
             accessor: "isActive"
 
             },

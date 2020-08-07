@@ -37,10 +37,6 @@ class Form extends Component {
                         onChange={this.props.handleGroupsChange}
                     />
                     <br /> 
-                    {/* <select name="isActive" type="string" value="{this.state.isActive}" onChange="{this.handleisActiveChange}">
-                    <option value="teen">True</option>
-                    <option value="adult">False</option>
-                    </select> */}
                     <input
                         name="isActive"
                         placeholder="isActive"
