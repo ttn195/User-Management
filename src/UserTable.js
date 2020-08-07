@@ -7,7 +7,6 @@ import './style/table.css'
 
 const Styles = styled.div`
 padding: 0rem;
-
 table {
 width: 100%;
 border-collapse: separate;
@@ -21,7 +20,6 @@ text-align: center;
 border: 1px solid black;
 padding: 5px;
 }
-
 `;
 
 function Table({ columns, data }) {
@@ -101,8 +99,8 @@ class UserTable extends Component {
     handleisActiveChange(e) {
         this.setState({isActive: e.target.value})
     }
+    //Closes Dialog after submit or x is clicked
     closeDialog() {
-        console.log("Closing Dialog in UserTable")
         const dialogForm = document.getElementById("dialogForm")
         dialogForm.close()
         this.setState({
@@ -114,6 +112,7 @@ class UserTable extends Component {
         })
     }
 
+    //Shows dialog when Edit button clicked
     showEditUserBox(user, isEditAction) {
         if (isEditAction) {
             console.log("showEditUserBox", user) 
@@ -129,7 +128,7 @@ class UserTable extends Component {
         dialogForm.showModal()
     }
 
-      //When Submit is clicked, adds user to table
+      //Adds user to table when submit button clicked
       onUserAction() {
         let user = {
             name: this.state.name,
@@ -141,15 +140,14 @@ class UserTable extends Component {
         if (this.state.editUserAction) {
             console.log("edit user")
             let idx = this.state.editIdx
-            console.log("idx: ", idx)
+            console.log("edit user idx: ", idx)
             this.props.editUser(user, {"idx": idx})
         } else {
             console.log("add new user")
             this.props.addUser(user)
             if (this.state.isEditAction) {
                 let idx = this.state.editIdx
-                console.log("edit user")
-                console.log("idx: ", idx)
+                console.log("add user idx: ", idx)
                 this.props.editUser(user, {"idx": idx})
             }
         }
@@ -246,10 +244,6 @@ class UserTable extends Component {
                     <Table columns={columns} data={this.props.userList} closeDialog={this.state.closeDialog} />
 
                     <Form 
-                        // editUserInTable={(user) => this.props.editUser(user)} 
-                        // onChange={fields => this.onChange(fields)}
-                        // addUserToTable={(user) => this.props.addUser(user)}
-                        // showEditUserBox={(event) => this.props.editUser(event)}
                         closeDialog={this.closeDialog} 
                         onUserAction={this.onUserAction}
                         

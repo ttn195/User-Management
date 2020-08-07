@@ -20,9 +20,12 @@ class App extends Component {
 
     //Add user to table when Submit button clicked
     addUser(userData) {
+        //creates a reference of user collection
         const userRef = db.collection('users').doc()
         console.log('userData', userData)
         let userList = this.state.userList
+        //This sets the userData ID to equal the reference ID. Thus, creating a new ID once user is added
+        //Allowing us to edit the user with that ID in one action
         userData.id = userRef.id
         userList.push(userData)
         this.setState({userList})
@@ -89,13 +92,9 @@ class App extends Component {
         console.log(this.state.userList)
         return (
         <div className="container">
-                {/* <UserNavBar addUser={this.addUser} isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false}) } onChange={fields => this.onChange(fields)} /> */}
                 <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
-                
-                {/* <Form addUser={this.addUser} onChange={fields => this.onChange(fields)}/> */}
                 <UserTable userList={this.state.userList} removeUser={this.removeUser}
                 editUser={this.editUser} addUser={this.addUser} />
-
         </div>
         );
     }
