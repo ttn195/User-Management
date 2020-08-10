@@ -28,7 +28,8 @@ class Form extends Component {
                         value={this.props.phone_number}
                         onChange={this.props.handlePhoneNumberChange}
                     />
-                    <br /> 
+                    <br />                     
+
                     <input
                         name="Groups"
                         placeholder="groups"
@@ -36,12 +37,13 @@ class Form extends Component {
                         value={this.props.Groups}
                         onChange={this.props.handleGroupsChange}
                     />
-                    <br /> 
+                    <br />
                     <input
                         name="isActive"
                         placeholder="isActive"
                         value={this.props.isActive}
                         onChange={this.props.handleisActiveChange}
+                    
                     />
                     <br /> 
                     <menu>
@@ -49,6 +51,7 @@ class Form extends Component {
                         <button id="submitBtn" onClick={this.props.onUserAction}>Submit </button>
                     </menu>
             </dialog>
+            
         )
     }
 }

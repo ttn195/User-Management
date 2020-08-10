@@ -22,6 +22,49 @@ padding: 5px;
 }
 `;
 
+const Container = styled.label`
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 16px;
+    
+    > input {
+        display: none
+    }
+
+`;
+const Slider = styled.span`
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ddd;
+    transition: 0.4s;
+    border-radius: 15px;
+
+    &:before {
+        position: absolute;
+        content: '';
+        height: 15px;
+        width: 15px;
+        background-color: #999;
+        transition: 0.2s;
+        border-radius: 50%
+    }
+`;
+
+const SliderInput = styled.input`
+&:checked + ${Slider} {
+    background-color: #0365b2;
+    &:before {
+        transform: translateX(15px);
+        background-color: white;
+    }
+}
+`;
+
 function Table({ columns, data }) {
     // Use the state and functions returned from useTable to build your UI
     const {
@@ -74,6 +117,7 @@ class UserTable extends Component {
             isActive: '',
             Groups: '',
             editIdx: '',
+            checked: '',
         }
         this.showEditUserBox = this.showEditUserBox.bind(this)
         this.handleNameChange = this.handleNameChange.bind(this)
@@ -83,6 +127,7 @@ class UserTable extends Component {
         this.handleisActiveChange = this.handleisActiveChange.bind(this)
         this.closeDialog = this.closeDialog.bind(this)
         this.onUserAction = this.onUserAction.bind(this)
+        this.handleToggle = this.handleToggle.bind(this)
     }
     handleNameChange(e) {
         this.setState({name: e.target.value})
@@ -99,6 +144,14 @@ class UserTable extends Component {
     handleisActiveChange(e) {
         this.setState({isActive: e.target.value})
     }
+    handleToggle() {
+        this.setState(prevState => ({
+            checked: !prevState.checked 
+        }));
+    };
+    // this.setState(prevState => ({ checked: !prevState.checked }));
+    
+
     //Closes Dialog after submit or x is clicked
     closeDialog() {
         const dialogForm = document.getElementById("dialogForm")
@@ -180,13 +233,25 @@ class UserTable extends Component {
             accessor: "phone_number"
             },
             {
+            id: "isActive",
             Header: "isActive",
-            // Cell: ({row}) => {
-            //     return row.original.isActive.toString()
-            // },
-            accessor: "isActive"
+            Cell: ({row}) => (
+                // <input type="checkbox" name="name" id="id" />
+                <Container>
+                        <SliderInput 
+                            type="checkbox" 
+                            className="toggle"
+                            onChange={this.handleToggleChange}
+                            // checked={this.state.checked}
+                        />
+                        <Slider>
 
+                        </Slider>
+                </Container>
+            ),
+            accessor: "isActive"
             },
+
             {
             id: "Groups",
             Header: "Groups",
@@ -240,6 +305,21 @@ class UserTable extends Component {
                 <menu>
                     <button id="addUserBtn" onClick={this.showEditUserBox}>Add Users </button>
                 </menu>
+                
+
+                    {/* <Container>
+                        <SliderInput 
+                            type="checkbox" 
+                            className="toggle"
+                            onChange={this.handleToggleChange}
+                            checked={this.state.checked}
+                        />
+                        <Slider>
+
+                        </Slider>
+                </Container> */}
+
+
                 <Styles>
                     <Table columns={columns} data={this.props.userList} closeDialog={this.state.closeDialog} />
 
