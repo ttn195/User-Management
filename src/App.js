@@ -69,9 +69,11 @@ class App extends Component {
         console.log("userList",index)
         //actual value of checked
         this.setState({userList:userList})
-        // db.collection("users").doc(idx).update(!boolVal)
-        // .then(() => console.log("isActive bool successfully changed!"))
-        // .catch((error) => console.error("Error changing isActive bool: ", error))
+        db.collection("users").doc(idx).update({
+            "isActive": !boolVal
+        })
+        .then(() => console.log("isActive bool successfully changed!"))
+        .catch((error) => console.error("Error changing isActive bool: ", error))
     }
 
     onChange = updatedValue => {
