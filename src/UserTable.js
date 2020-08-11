@@ -175,15 +175,8 @@ class UserTable extends Component {
                 isActive: user.isActive
             }) 
         }
-        if (!this.state.checked) {
-            this.setState({ 
-                editUserAction: false
-            })
-        }
-        else {
-            const dialogForm = document.getElementById("dialogForm")
-            dialogForm.showModal()
-        }
+        const dialogForm = document.getElementById("dialogForm")
+        dialogForm.showModal()
     }
 
       //Adds user to table when submit button clicked
@@ -214,7 +207,6 @@ class UserTable extends Component {
     }
 
     OnToggleSwitch(bool, checked) {
-        console.log("checked value:", !this.state.checked)
         var newVal = !this.state.checked
         this.props.editisActive(newVal)
     }
@@ -257,7 +249,7 @@ class UserTable extends Component {
                             onClick={() => {
                                 let status = row.original.isActive
                                 }}
-                            // checked={status}
+                            //checked={status}
                         />
                         <Slider>
                         </Slider>
@@ -279,9 +271,9 @@ class UserTable extends Component {
             Cell: ({row}) => (
                 <img src="https://www.pinclipart.com/picdir/middle/345-3450678_edit-pencil-outline-in-circular-button-comments-play.png" alt="" width="25" height="25"
                 onClick = {() => {
-                    if (this.state.editUserAction) {
+                    if (!this.state.checked) {
                         alert("Please activate user in order to edit")
-                    }
+                    } else {
                     let currUser = {
                         name: row.original.name,
                         email: row.original.email,
@@ -289,11 +281,12 @@ class UserTable extends Component {
                         isActive: row.original.isActive,
                         Groups: row.original.Groups,
                     }
+                    this.showEditUserBox(currUser, true)
                     this.setState({
                             editUserAction: true,
                             editIdx: row.original.id
                     })
-                    this.showEditUserBox(currUser, true)
+                }
                 }}
                 title="Edit User"
                 id="editUserBtn"
