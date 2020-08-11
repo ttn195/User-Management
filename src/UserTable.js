@@ -143,9 +143,13 @@ class UserTable extends Component {
         this.setState({isActive: e.target.value})
     }
     handleToggleChange() {
-        this.setState(prevState => ({
-            checked: !prevState.checked 
-        }));
+        let idx = this.state.activeIdx
+        // this.setState(prevState => ({
+        //     checked: !prevState.checked 
+        // }));
+        this.setState({
+            checked: !this.state.checked
+        })
     };    
 
     //Closes Dialog after submit or x is clicked
@@ -158,6 +162,8 @@ class UserTable extends Component {
             isActive:'',
             phone_number:'',
             Groups:'',
+            editUserAction: false,
+            isEditAction: false,
         })
     }
 
@@ -233,14 +239,19 @@ class UserTable extends Component {
             Header: "isActive",
             Cell: ({row}) => (
                 <Container>
-                        <SliderInput 
+                        <SliderInput  
                             type="checkbox" 
                             onChange={this.handleToggleChange}
                             checked={this.state.checked}
                             onClick={() => {
                                 let status= row.original.isActive
                                 let idx = row.original.id
+                                //index of Toggle row clicked
+                                this.setState({
+                                    activeIdx: row.original.id
+                                })
                                 console.log("idx", status)
+                                //Calls function in parent component and changes the value of isActive
                                 this.props.editisActive(this.state.checked, {"idx": idx})
                                 }}
                             //checked={status}    

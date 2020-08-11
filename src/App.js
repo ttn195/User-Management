@@ -68,7 +68,7 @@ class App extends Component {
         let index = userList.findIndex((user) => user.id.isActive === idx)
         console.log("userList",index)
         //actual value of checked
-        this.setState({userList:userList})
+        this.setState({userList})
         db.collection("users").doc(idx).update({
             "isActive": !boolVal
         })
