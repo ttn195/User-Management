@@ -144,11 +144,12 @@ class UserTable extends Component {
     }
     handleToggleChange() {
         let idx = this.state.activeIdx
+        const newVal = this.state.checked
         // this.setState(prevState => ({
         //     checked: !prevState.checked 
         // }));
         this.setState({
-            checked: !this.state.checked
+            checked: !newVal
         })
     };    
 
@@ -241,20 +242,21 @@ class UserTable extends Component {
                 <Container>
                         <SliderInput  
                             type="checkbox" 
-                            onChange={this.handleToggleChange}
-                            checked={this.state.checked}
+                            // onChange={this.handleToggleChange}
                             onClick={() => {
+                                
                                 let status= row.original.isActive
                                 let idx = row.original.id
                                 //index of Toggle row clicked
                                 this.setState({
-                                    activeIdx: row.original.id
+                                    activeIdx: row.original.id,
+                                    checked: {status}
                                 })
+                                this.handleToggleChange()
                                 console.log("idx", status)
                                 //Calls function in parent component and changes the value of isActive
                                 this.props.editisActive(this.state.checked, {"idx": idx})
                                 }}
-                            //checked={status}    
                         />
                         <Slider>
                         </Slider>
