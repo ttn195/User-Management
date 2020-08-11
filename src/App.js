@@ -61,6 +61,14 @@ class App extends Component {
         .catch((error) => console.error("Error removing document: ", error))
     }
 
+    editisActive(boolVal) {
+        console.log("you have made it in App!")
+        // db.collection("cities").where("isActive", "==", boolVal)
+        // .then(() => console.log("isActive bool successfully changed!"))
+        // .catch((error) => console.error("Error changing isActive bool: ", error))
+
+    }
+
     onChange = updatedValue => {
         this.setState({
         fields: {
@@ -94,7 +102,7 @@ class App extends Component {
         <div className="container">
                 <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
                 <UserTable userList={this.state.userList} removeUser={this.removeUser}
-                editUser={this.editUser} addUser={this.addUser} />
+                editUser={this.editUser} addUser={this.addUser} editisActive={this.editisActive}/>
         </div>
         );
     }

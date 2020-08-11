@@ -21,7 +21,6 @@ border: 1px solid black;
 padding: 5px;
 }
 `;
-
 const Container = styled.label`
     position: relative;
     display: inline-block;
@@ -54,12 +53,11 @@ const Slider = styled.span`
         border-radius: 50%
     }
 `;
-
 const SliderInput = styled.input`
 &:checked + ${Slider} {
     background-color: #0365b2;
     &:before {
-        transform: translateX(15px);
+        transform: translateX(1px);
         background-color: white;
     }
 }
@@ -127,7 +125,8 @@ class UserTable extends Component {
         this.handleisActiveChange = this.handleisActiveChange.bind(this)
         this.closeDialog = this.closeDialog.bind(this)
         this.onUserAction = this.onUserAction.bind(this)
-        this.handleToggle = this.handleToggle.bind(this)
+        this.handleToggleChange = this.handleToggleChange.bind(this)
+        this.OnToggleSwitch = this.OnToggleSwitch.bind(this)
     }
     handleNameChange(e) {
         this.setState({name: e.target.value})
@@ -144,13 +143,12 @@ class UserTable extends Component {
     handleisActiveChange(e) {
         this.setState({isActive: e.target.value})
     }
-    handleToggle() {
+    handleToggleChange() {
         this.setState(prevState => ({
             checked: !prevState.checked 
         }));
-    };
-    // this.setState(prevState => ({ checked: !prevState.checked }));
-    
+        this.OnToggleSwitch(this.state.checked, true)
+    };    
 
     //Closes Dialog after submit or x is clicked
     closeDialog() {
@@ -175,10 +173,17 @@ class UserTable extends Component {
                 phone_number: user.phone_number,
                 Groups: user.Groups,
                 isActive: user.isActive
+            }) 
+        }
+        if (!this.state.checked) {
+            this.setState({ 
+                editUserAction: false
             })
         }
-        const dialogForm = document.getElementById("dialogForm")
-        dialogForm.showModal()
+        else {
+            const dialogForm = document.getElementById("dialogForm")
+            dialogForm.showModal()
+        }
     }
 
       //Adds user to table when submit button clicked
@@ -204,7 +209,14 @@ class UserTable extends Component {
                 this.props.editUser(user, {"idx": idx})
             }
         }
+
         this.closeDialog()
+    }
+
+    OnToggleSwitch(bool, checked) {
+        console.log("checked value:", !this.state.checked)
+        var newVal = !this.state.checked
+        this.props.editisActive(newVal)
     }
 
     render() {
@@ -236,18 +248,21 @@ class UserTable extends Component {
             id: "isActive",
             Header: "isActive",
             Cell: ({row}) => (
-                // <input type="checkbox" name="name" id="id" />
                 <Container>
                         <SliderInput 
                             type="checkbox" 
-                            className="toggle"
+                            className="isActive"
                             onChange={this.handleToggleChange}
-                            // checked={this.state.checked}
+                            checked={this.state.checked}
+                            onClick={() => {
+                                let status = row.original.isActive
+                                }}
+                            // checked={status}
                         />
                         <Slider>
-
                         </Slider>
                 </Container>
+
             ),
             accessor: "isActive"
             },
@@ -264,6 +279,9 @@ class UserTable extends Component {
             Cell: ({row}) => (
                 <img src="https://www.pinclipart.com/picdir/middle/345-3450678_edit-pencil-outline-in-circular-button-comments-play.png" alt="" width="25" height="25"
                 onClick = {() => {
+                    if (this.state.editUserAction) {
+                        alert("Please activate user in order to edit")
+                    }
                     let currUser = {
                         name: row.original.name,
                         email: row.original.email,
@@ -305,21 +323,6 @@ class UserTable extends Component {
                 <menu>
                     <button id="addUserBtn" onClick={this.showEditUserBox}>Add Users </button>
                 </menu>
-                
-
-                    {/* <Container>
-                        <SliderInput 
-                            type="checkbox" 
-                            className="toggle"
-                            onChange={this.handleToggleChange}
-                            checked={this.state.checked}
-                        />
-                        <Slider>
-
-                        </Slider>
-                </Container> */}
-
-
                 <Styles>
                     <Table columns={columns} data={this.props.userList} closeDialog={this.state.closeDialog} />
 
@@ -338,6 +341,7 @@ class UserTable extends Component {
                         handlePhoneNumberChange={this.handlePhoneNumberChange} 
                         handleGroupsChange={this.handleGroupsChange} 
                         handleisActiveChange={this.handleisActiveChange}
+                        handleToggleChange={this.handleToggleChange}
                         />
                 </Styles>
             </div>
