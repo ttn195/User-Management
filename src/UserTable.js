@@ -218,8 +218,7 @@ class UserTable extends Component {
             accessor: "icon",
             Cell: () => (
                 <img src = "https://static.thenounproject.com/png/638636-200.png" alt="" width="25" height="25"/>
-            )
-            },
+            )},
             {
             Header: ' ',
             columns: [
@@ -238,21 +237,20 @@ class UserTable extends Component {
             {
             id: "isActive",
             Header: "isActive",
+            accessor: "isActive",
             Cell: ({row}) => (
                 <Container>
                         <SliderInput  
                             type="checkbox" 
-                            // onChange={this.handleToggleChange}
+                            onChange={this.handleToggleChange}
                             onClick={() => {
-                                
                                 let status= row.original.isActive
                                 let idx = row.original.id
-                                //index of Toggle row clicked
                                 this.setState({
+                                    //Index of toggle clicked
                                     activeIdx: row.original.id,
                                     checked: {status}
                                 })
-                                this.handleToggleChange()
                                 console.log("idx", status)
                                 //Calls function in parent component and changes the value of isActive
                                 this.props.editisActive(this.state.checked, {"idx": idx})
@@ -261,11 +259,7 @@ class UserTable extends Component {
                         <Slider>
                         </Slider>
                 </Container>
-
-            ),
-            accessor: "isActive"
-            },
-
+            )},
             {
             id: "Groups",
             Header: "Groups",
