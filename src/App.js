@@ -16,6 +16,7 @@ class App extends Component {
         this.removeUser = this.removeUser.bind(this)
         this.addUser = this.addUser.bind(this)
         this.editUser = this.editUser.bind(this)
+        this.editisActive = this.editisActive.bind(this)
     }
 
     //Add user to table when Submit button clicked
@@ -61,12 +62,16 @@ class App extends Component {
         .catch((error) => console.error("Error removing document: ", error))
     }
 
-    editisActive(boolVal) {
-        console.log("you have made it in App!")
-        // db.collection("cities").where("isActive", "==", boolVal)
+    //Edits the value of isActive once Toggle Switch is clicked
+    editisActive(boolVal, {idx}) {
+        let userList = this.state.userList
+        let index = userList.findIndex((user) => user.id.isActive === idx)
+        console.log("userList",index)
+        //actual value of checked
+        this.setState({userList:userList})
+        // db.collection("users").doc(idx).update(!boolVal)
         // .then(() => console.log("isActive bool successfully changed!"))
         // .catch((error) => console.error("Error changing isActive bool: ", error))
-
     }
 
     onChange = updatedValue => {
@@ -97,7 +102,6 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.state.userList)
         return (
         <div className="container">
                 <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />

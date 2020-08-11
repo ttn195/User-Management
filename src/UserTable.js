@@ -126,7 +126,6 @@ class UserTable extends Component {
         this.closeDialog = this.closeDialog.bind(this)
         this.onUserAction = this.onUserAction.bind(this)
         this.handleToggleChange = this.handleToggleChange.bind(this)
-        this.OnToggleSwitch = this.OnToggleSwitch.bind(this)
     }
     handleNameChange(e) {
         this.setState({name: e.target.value})
@@ -147,7 +146,6 @@ class UserTable extends Component {
         this.setState(prevState => ({
             checked: !prevState.checked 
         }));
-        this.OnToggleSwitch(this.state.checked, true)
     };    
 
     //Closes Dialog after submit or x is clicked
@@ -166,7 +164,6 @@ class UserTable extends Component {
     //Shows dialog when Edit button clicked
     showEditUserBox(user, isEditAction) {
         if (isEditAction) {
-            console.log("showEditUserBox", user) 
             this.setState({
                 name: user.name,
                 email: user.email,
@@ -206,11 +203,6 @@ class UserTable extends Component {
         this.closeDialog()
     }
 
-    OnToggleSwitch(bool, checked) {
-        var newVal = !this.state.checked
-        this.props.editisActive(newVal)
-    }
-
     render() {
         const columns = [
             {
@@ -243,13 +235,15 @@ class UserTable extends Component {
                 <Container>
                         <SliderInput 
                             type="checkbox" 
-                            className="isActive"
                             onChange={this.handleToggleChange}
                             checked={this.state.checked}
                             onClick={() => {
-                                let status = row.original.isActive
+                                let status= row.original.isActive
+                                let idx = row.original.id
+                                console.log("idx", status)
+                                this.props.editisActive(this.state.checked, {"idx": idx})
                                 }}
-                            //checked={status}
+                            //checked={status}    
                         />
                         <Slider>
                         </Slider>
@@ -271,8 +265,15 @@ class UserTable extends Component {
             Cell: ({row}) => (
                 <img src="https://www.pinclipart.com/picdir/middle/345-3450678_edit-pencil-outline-in-circular-button-comments-play.png" alt="" width="25" height="25"
                 onClick = {() => {
+                    console.log("bool val:", this.state.checked)
+                    //negative value of checked because setState retrieves data slowly
                     if (!this.state.checked) {
-                        alert("Please activate user in order to edit")
+                        this.setState({
+                            editUserAction: false,
+                            isEditAction: false,
+
+                    })
+                    alert("Please activate user in order to edit")
                     } else {
                     let currUser = {
                         name: row.original.name,
@@ -281,11 +282,11 @@ class UserTable extends Component {
                         isActive: row.original.isActive,
                         Groups: row.original.Groups,
                     }
-                    this.showEditUserBox(currUser, true)
                     this.setState({
                             editUserAction: true,
                             editIdx: row.original.id
                     })
+                    this.showEditUserBox(currUser, true)
                 }
                 }}
                 title="Edit User"
