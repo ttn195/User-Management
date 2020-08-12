@@ -37,6 +37,7 @@ class App extends Component {
     //This will trigger the Form to open when Edit is clicked 
     editUser(userData, {idx}) { 
         let userList = this.state.userList
+        //Grabs the index of the user 
         let index = userList.findIndex((user) => user.id === idx)
         if (index !== -1) {
             let uid = userList[index].id
@@ -63,8 +64,9 @@ class App extends Component {
     }
 
     //Edits the value of isActive once Toggle Switch is clicked
-    HandleisActiveChange(index, {idx}) {
+    HandleisActiveChange({userID}) {
         let userList = this.state.userList
+        let index = userList.findIndex((user) => user.id === userID)
         //actual value of checked
         //1. Retrieve the user's isActive field
         let status = userList[index].isActive
@@ -72,7 +74,7 @@ class App extends Component {
         this.setState({userList: userList})
         //2. Gets the specified user ID 
         //3. Updates boolean value of user ID
-        db.collection("users").doc(idx).update({
+        db.collection("users").doc(userID).update({
             "isActive": !status
         })
         .then(() => console.log("isActive bool successfully changed!"))

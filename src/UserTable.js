@@ -234,11 +234,11 @@ class UserTable extends Component {
                         type="checkbox" 
                         // checked={this.state.checked}
                         onClick={() => {
-                            let idx = row.original.id
+                            let userID = row.original.id
                             let index = row.id
                             console.log(index)
                         //Calls function in parent component and changes the value of isActive
-                        this.props.HandleisActiveChange(index, {"idx": idx})
+                        this.props.HandleisActiveChange({"userID": userID})
                         }}
                     />
                     <span className="slider round"/>
