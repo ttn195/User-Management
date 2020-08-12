@@ -21,47 +21,47 @@ border: 1px solid black;
 padding: 5px;
 }
 `;
-const Container = styled.label`
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 16px;
+// const Container = styled.label`
+//     position: relative;
+//     display: inline-block;
+//     width: 30px;
+//     height: 16px;
     
-    > input {
-        display: none
-    }
+//     > input {
+//         display: none
+//     }
 
-`;
-const Slider = styled.span`
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ddd;
-    transition: 0.4s;
-    border-radius: 15px;
+// `;
+// const Slider = styled.span`
+//     position: absolute;
+//     cursor: pointer;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     background-color: #ddd;
+//     transition: 0.4s;
+//     border-radius: 15px;
 
-    &:before {
-        position: absolute;
-        content: '';
-        height: 15px;
-        width: 15px;
-        background-color: #999;
-        transition: 0.2s;
-        border-radius: 50%
-    }
-`;
-const SliderInput = styled.input`
-&:checked + ${Slider} {
-    background-color: #0365b2;
-    &:before {
-        transform: translateX(1px);
-        background-color: white;
-    }
-}
-`;
+//     &:before {
+//         position: absolute;
+//         content: '';
+//         height: 15px;
+//         width: 15px;
+//         background-color: #999;
+//         transition: 0.2s;
+//         border-radius: 50%
+//     }
+// `;
+// const SliderInput = styled.input`
+// &:checked + ${Slider} {
+//     background-color: #0365b2;
+//     &:before {
+//         transform: translateX(1px);
+//         background-color: white;
+//     }
+// }
+// `;
 
 function Table({ columns, data }) {
     // Use the state and functions returned from useTable to build your UI
@@ -115,7 +115,7 @@ class UserTable extends Component {
             isActive: '',
             Groups: '',
             editIdx: '',
-            checked: '',
+            checked: false,
         }
         this.showEditUserBox = this.showEditUserBox.bind(this)
         this.handleNameChange = this.handleNameChange.bind(this)
@@ -125,7 +125,6 @@ class UserTable extends Component {
         this.handleisActiveChange = this.handleisActiveChange.bind(this)
         this.closeDialog = this.closeDialog.bind(this)
         this.onUserAction = this.onUserAction.bind(this)
-        this.handleToggleChange = this.handleToggleChange.bind(this)
     }
     handleNameChange(e) {
         this.setState({name: e.target.value})
@@ -141,17 +140,7 @@ class UserTable extends Component {
     }
     handleisActiveChange(e) {
         this.setState({isActive: e.target.value})
-    }
-    handleToggleChange() {
-        let idx = this.state.activeIdx
-        const newVal = this.state.checked
-        // this.setState(prevState => ({
-        //     checked: !prevState.checked 
-        // }));
-        this.setState({
-            checked: !newVal
-        })
-    };    
+    }  
 
     //Closes Dialog after submit or x is clicked
     closeDialog() {
@@ -238,28 +227,23 @@ class UserTable extends Component {
             id: "isActive",
             Header: "isActive",
             accessor: "isActive",
-            Cell: ({row}) => (
-                <Container>
-                        <SliderInput  
-                            type="checkbox" 
-                            onChange={this.handleToggleChange}
-                            onClick={() => {
-                                let status= row.original.isActive
-                                let idx = row.original.id
-                                this.setState({
-                                    //Index of toggle clicked
-                                    activeIdx: row.original.id,
-                                    checked: {status}
-                                })
-                                console.log("idx", status)
-                                //Calls function in parent component and changes the value of isActive
-                                this.props.editisActive(this.state.checked, {"idx": idx})
-                                }}
-                        />
-                        <Slider>
-                        </Slider>
-                </Container>
-            )},
+            Cell: ({row}) => {
+                return <label className="switch"> 
+                    <input 
+                        defaultChecked={row.original.isActive}
+                        type="checkbox" 
+                        // checked={this.state.checked}
+                        onClick={() => {
+                            let idx = row.original.id
+                            let index = row.id
+                            console.log(index)
+                        //Calls function in parent component and changes the value of isActive
+                        this.props.HandleisActiveChange(index, {"idx": idx})
+                        }}
+                    />
+                    <span className="slider round"/>
+                </label >
+            }},
             {
             id: "Groups",
             Header: "Groups",
@@ -272,9 +256,9 @@ class UserTable extends Component {
             Cell: ({row}) => (
                 <img src="https://www.pinclipart.com/picdir/middle/345-3450678_edit-pencil-outline-in-circular-button-comments-play.png" alt="" width="25" height="25"
                 onClick = {() => {
-                    console.log("bool val:", this.state.checked)
+                    let status = row.original.isActive
                     //negative value of checked because setState retrieves data slowly
-                    if (!this.state.checked) {
+                    if (status === false) {
                         this.setState({
                             editUserAction: false,
                             isEditAction: false,
@@ -342,7 +326,6 @@ class UserTable extends Component {
                         handlePhoneNumberChange={this.handlePhoneNumberChange} 
                         handleGroupsChange={this.handleGroupsChange} 
                         handleisActiveChange={this.handleisActiveChange}
-                        handleToggleChange={this.handleToggleChange}
                         />
                 </Styles>
             </div>

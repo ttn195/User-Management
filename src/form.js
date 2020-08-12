@@ -3,48 +3,6 @@ import './App.css';
 import './style/table.css'
 import styled from 'styled-components';
 
-const Container = styled.label`
-    position: relative;
-    display: inline-block;
-    width: 30px;
-    height: 16px;
-    
-    > input {
-        display: none
-    }
-
-`;
-const Slider = styled.span`
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ddd;
-    transition: 0.4s;
-    border-radius: 15px;
-
-    &:before {
-        position: absolute;
-        content: '';
-        height: 15px;
-        width: 15px;
-        background-color: #999;
-        transition: 0.2s;
-        border-radius: 50%
-    }
-`;
-const SliderInput = styled.input`
-&:checked + ${Slider} {
-    background-color: #0365b2;
-    &:before {
-        transform: translateX(1px);
-        background-color: white;
-    }
-}
-`;
-
 class Form extends Component {
 
     render() {  
@@ -82,25 +40,26 @@ class Form extends Component {
                         onChange={this.props.handleGroupsChange}
                     />
                     <br />
-                    <input
+                    {/* <input
                         name="isActive"
+                        type="checkbox"
                         placeholder="isActive"
-                        value={this.props.isActive}
-                        onChange={this.props.handleisActiveChange}
+                        defaultChecked={this.props.status}
+                        // value={this.props.isActive}
+                        onChange={this.props.handleToggleChange}
                     
+                    /> */}
+                    <label>
+                    <input 
+                    name="isActive"
+                    type="checkbox"
+                    // defaultChecked={this.props.checked}
+                    // value={this.props.isActive}
+                    // onChange={this.props.handleToggleChange}
+
                     />
-                    {/* <h5>Is Active</h5>
-                       <Container> 
-                        <SliderInput 
-                            type="checkbox" 
-                            onChange={this.props.handleToggleChange}
-                            checked={this.props.checked}
-                            name="isActive"
-                            value={this.props.isActive}
-                        />
-                        <Slider>
-                        </Slider>
-                 </Container> */}
+                    User isActive
+                    </label>
                     <br /> 
                     <menu>
                         <button id="cancel" onClick={this.props.closeDialog}>Cancel </button>

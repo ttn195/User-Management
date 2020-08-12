@@ -16,7 +16,7 @@ class App extends Component {
         this.removeUser = this.removeUser.bind(this)
         this.addUser = this.addUser.bind(this)
         this.editUser = this.editUser.bind(this)
-        this.editisActive = this.editisActive.bind(this)
+        this.HandleisActiveChange = this.HandleisActiveChange.bind(this)
     }
 
     //Add user to table when Submit button clicked
@@ -29,7 +29,7 @@ class App extends Component {
         //Allowing us to edit the user with that ID in one action
         userData.id = userRef.id
         userList.push(userData)
-        this.setState({userList})
+        this.setState({userList: userList})
         firebase.firestore().collection('users').doc(userRef.id).set(userData)
         .then(() => console.log("Successfully added user"))
     }   
@@ -56,21 +56,24 @@ class App extends Component {
         const uid = this.state.userList[idx].id
         userList.splice(idx, 1)
         //Updates the new changes and sets them
-        this.setState({userList})
+        this.setState({userList: userList})
         db.collection("users").doc(uid).delete()
         .then(() => console.log("Document successfully deleted!"))
         .catch((error) => console.error("Error removing document: ", error))
     }
 
     //Edits the value of isActive once Toggle Switch is clicked
-    editisActive(boolVal, {idx}) {
+    HandleisActiveChange(index, {idx}) {
         let userList = this.state.userList
-        let index = userList.findIndex((user) => user.id.isActive === idx)
-        console.log("userList",index)
         //actual value of checked
-        this.setState({userList})
+        //1. Retrieve the user's isActive field
+        let status = userList[index].isActive
+        userList[index].isActive = !status
+        this.setState({userList: userList})
+        //2. Gets the specified user ID 
+        //3. Updates boolean value of user ID
         db.collection("users").doc(idx).update({
-            "isActive": !boolVal
+            "isActive": !status
         })
         .then(() => console.log("isActive bool successfully changed!"))
         .catch((error) => console.error("Error changing isActive bool: ", error))
@@ -108,7 +111,7 @@ class App extends Component {
         <div className="container">
                 <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
                 <UserTable userList={this.state.userList} removeUser={this.removeUser}
-                editUser={this.editUser} addUser={this.addUser} editisActive={this.editisActive}/>
+                editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange}/>
         </div>
         );
     }
