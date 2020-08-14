@@ -12,6 +12,7 @@ class UserNavBar extends Component{
                 <h3 className="Navigation"> User Management </h3> 
                 <Nav className = "nav" fill variant="tabs" as="ul">
                     <Nav.Item><Link to='/'>Users</Link></Nav.Item>
+                    <Nav.Item><Link to='/'>Groups</Link></Nav.Item>
                     <Nav.Item><Link to='/DeletedTable'>Deleted</Link></Nav.Item>
                 </Nav>
             </div>

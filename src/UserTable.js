@@ -3,7 +3,7 @@ import './App.css';
 import styled from 'styled-components';
 import { useTable } from 'react-table'
 import Form from './form'
-import './style/table.css'
+import './style/navbar.css'
 
 const Styles = styled.div`
 padding: 0rem;

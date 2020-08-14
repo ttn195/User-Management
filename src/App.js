@@ -127,6 +127,11 @@ class App extends Component {
                             <UserTable userList={this.state.userList} removeUser={this.removeUser}
                                     editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange}/>
                         </Route>
+                        <Route exact path="/">
+                            <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
+                            <UserTable userList={this.state.userList} removeUser={this.removeUser}
+                                    editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange}/>
+                        </Route>
                         <Route path="/DeletedTable">
                             <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
                             <DeletedTable userList={this.state.userList}/>
