@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import styled from 'styled-components';
-import { useTable } from 'react-table'
-import './style/table.css'
+import { useTable } from 'react-table';
+import './style/table.css';
 
 const Styles = styled.div`
 padding: 0rem;
@@ -13,7 +13,6 @@ border-spacing: 0px;
 padding: 5px;
 
 }
-
 th, td {
 text-align: center;
 border: 1px solid black;
@@ -99,7 +98,7 @@ class DeletedTable extends Component {
             return (
                 <div>
                     <Styles>
-                        <Table columns={columns} data={this.props.userList}/>
+                        <Table columns={columns} data={this.props.deletedList} />
                     </Styles>
                 </div>
                 )

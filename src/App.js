@@ -14,6 +14,8 @@ class App extends Component {
         this.state = {
             //show Form on Edit button
             userList:[],
+            deletedList:[],
+            viewDeletedUsers: true,
         }
         this.removeUser = this.removeUser.bind(this)
         this.addUser = this.addUser.bind(this)
@@ -57,12 +59,18 @@ class App extends Component {
         let userList = this.state.userList
         //Grabs the ID of each user in the userList
         const uid = this.state.userList[idx].id
-        userList.splice(idx, 1)
+        const deletedUsers = userList.splice(idx, 1)
+        
         //Updates the new changes and sets them
-        this.setState({userList: userList})
-        db.collection("users").doc(uid).delete()
-        .then(() => console.log("Document successfully deleted!"))
-        .catch((error) => console.error("Error removing document: ", error))
+        this.setState({
+            userList: userList,
+            deletedList: deletedUsers,
+            viewDeletedUsers: false
+        })
+        console.log("User successfully deleted from the table!")
+        // db.collection("users").doc(uid).delete()
+        // .then(() => console.log("Document successfully deleted!"))
+        // .catch((error) => console.error("Error removing document: ", error))
     }
 
     //Edits the value of isActive once Toggle Switch is clicked
@@ -103,7 +111,10 @@ class App extends Component {
                 const uid = doc.id
                 const data = doc.data()
                 data.id = uid
+                if (this.state.viewDeletedUsers) {
                 users.push(data)
+                }
+
             })
             this.setState({ userList: users})
         })
@@ -134,7 +145,7 @@ class App extends Component {
                         </Route>
                         <Route path="/DeletedTable">
                             <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
-                            <DeletedTable userList={this.state.userList}/>
+                            <DeletedTable deletedList={this.state.deletedList}/>
                         </Route>
                     </Switch>
                 </div>

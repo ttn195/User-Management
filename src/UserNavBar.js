@@ -5,7 +5,7 @@ import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 
 class UserNavBar extends Component{
     
-    //Calls on Form componenet and opens the add user form once the "Add Users" button is clicked.
+    //Handles the Navigation Bar
     render() {
         return(
             <div>
