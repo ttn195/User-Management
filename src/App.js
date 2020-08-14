@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import './App.css';
 import UserNavBar from './UserNavBar';
 import UserTable from './UserTable';
+import DeletedTable from './DeletedTable';
 import  { db } from './firebase'
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 
 class App extends Component {
     constructor(props) {
@@ -110,11 +112,28 @@ class App extends Component {
 
     render() {
         return (
-        <div className="container">
-                <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
-                <UserTable userList={this.state.userList} removeUser={this.removeUser}
-                editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange}/>
-        </div>
+            <BrowserRouter>
+                <div className="container">
+                    {/*
+                    A <Switch> looks through all its children <Route>
+                    elements and renders the first one whose path
+                    matches the current URL. Use a <Switch> any time
+                    you have multiple routes, but you want only one
+                    of them to render at a time
+                    */}
+                    <Switch>
+                        <Route exact path="/">
+                            <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
+                            <UserTable userList={this.state.userList} removeUser={this.removeUser}
+                                    editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange}/>
+                        </Route>
+                        <Route path="/DeletedTable">
+                            <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
+                            <DeletedTable userList={this.state.userList}/>
+                        </Route>
+                    </Switch>
+                </div>
+            </BrowserRouter>
         );
     }
 }
