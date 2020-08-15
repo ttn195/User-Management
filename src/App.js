@@ -15,7 +15,6 @@ class App extends Component {
             //show Form on Edit button
             userList:[],
             deletedList:[],
-            viewDeletedUsers: true,
         }
         this.removeUser = this.removeUser.bind(this)
         this.addUser = this.addUser.bind(this)
@@ -36,6 +35,10 @@ class App extends Component {
         this.setState({userList: userList})
         firebase.firestore().collection('users').doc(userRef.id).set(userData)
         .then(() => console.log("Successfully added user"))
+        
+        firebase.firestore().collection('users').doc(userRef.id).update({viewDeletedUsers: true})
+        .then(() => console.log("viewDeletedUser set to true when user added"))
+
     }   
 
     //This will trigger the Form to open when Edit is clicked 
@@ -57,20 +60,27 @@ class App extends Component {
     removeUser({idx}) {
         //Gets new userList
         let userList = this.state.userList
+        let deletedList = this.state.deletedList
         //Grabs the ID of each user in the userList
         const uid = this.state.userList[idx].id
-        const deletedUsers = userList.splice(idx, 1)
         
+
+        //Grabbing the row that is being deleted, and pushing it to the deleted list
+        deletedList.push(userList[idx])
+        //This removes the deleted row from the user ist
+        userList.splice(idx, 1)
         //Updates the new changes and sets them
         this.setState({
+            deletedList: deletedList,
             userList: userList,
-            deletedList: deletedUsers,
             viewDeletedUsers: false
         })
-        console.log("User successfully deleted from the table!")
-        // db.collection("users").doc(uid).delete()
-        // .then(() => console.log("Document successfully deleted!"))
-        // .catch((error) => console.error("Error removing document: ", error))
+        console.log("User successfully deleted from the table!", this.state.deletedList, this.state.viewDeletedUsers)
+        db.collection("users").doc(uid).update({
+            viewDeletedUsers: false
+        })
+        .then(() => console.log("Document successfully deleted!"))
+        .catch((error) => console.error("Error removing document: ", error))
     }
 
     //Edits the value of isActive once Toggle Switch is clicked
@@ -107,16 +117,25 @@ class App extends Component {
     fetchUserList() {
         db.collection('users').get().then( snapshot => {
             const users = []
+            const deletedUser = []
+            // let isDeleted = this.state.viewDeletedUsers
             snapshot.forEach(doc => {
                 const uid = doc.id
                 const data = doc.data()
                 data.id = uid
-                if (this.state.viewDeletedUsers) {
+                let status = data.viewDeletedUsers
+                if (status || undefined) {
                 users.push(data)
-                }
+            } else {
+                deletedUser.push(data)
+            }
 
             })
-            this.setState({ userList: users})
+            this.setState({ 
+                // ...this.state,
+                userList: users,
+                deletedList:deletedUser
+            })
         })
         .catch( error => console.log(error))
     }
@@ -136,16 +155,16 @@ class App extends Component {
                         <Route exact path="/">
                             <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
                             <UserTable userList={this.state.userList} removeUser={this.removeUser}
-                                    editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange}/>
+                                    editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange} deletedList={this.state.deletedList}/>
                         </Route>
                         <Route exact path="/">
                             <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
                             <UserTable userList={this.state.userList} removeUser={this.removeUser}
-                                    editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange}/>
+                                    editUser={this.editUser} addUser={this.addUser} HandleisActiveChange={this.HandleisActiveChange} deletedList={this.state.deletedList}/>
                         </Route>
                         <Route path="/DeletedTable">
-                            <UserNavBar addUser={this.addUser}  onChange={fields => this.onChange(fields)} />
-                            <DeletedTable deletedList={this.state.deletedList}/>
+                            <UserNavBar onChange={fields => this.onChange(fields)} />
+                            <DeletedTable removeUser={this.removeUser} userList={this.state.userList} deletedList={this.state.deletedList}/>
                         </Route>
                     </Switch>
                 </div>

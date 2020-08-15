@@ -88,6 +88,11 @@ class DeletedTable extends Component {
                 accessor: "phone_number"
                 },
                 {
+                id: "isActive",
+                Header: "isActive",
+                accessor: "isActive"
+                },
+                {
                 id: "Groups",
                 Header: "Groups",
                 accessor: "Groups"
@@ -98,7 +103,7 @@ class DeletedTable extends Component {
             return (
                 <div>
                     <Styles>
-                        <Table columns={columns} data={this.props.deletedList} />
+                        <Table columns={columns} userList={this.props.userList} data={this.props.deletedList} />
                     </Styles>
                 </div>
                 )
