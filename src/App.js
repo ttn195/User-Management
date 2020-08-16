@@ -36,7 +36,7 @@ class App extends Component {
         firebase.firestore().collection('users').doc(userRef.id).set(userData)
         .then(() => console.log("Successfully added user"))
         
-        firebase.firestore().collection('users').doc(userRef.id).update({viewDeletedUsers: true})
+        firebase.firestore().collection('users').doc(userRef.id).update({viewDeletedUsers: true, isActive: false})
         .then(() => console.log("viewDeletedUser set to true when user added"))
 
     }   
@@ -118,13 +118,13 @@ class App extends Component {
         db.collection('users').get().then( snapshot => {
             const users = []
             const deletedUser = []
-            // let isDeleted = this.state.viewDeletedUsers
             snapshot.forEach(doc => {
                 const uid = doc.id
                 const data = doc.data()
                 data.id = uid
+                //Grabs value of viewDeletedUsers
                 let status = data.viewDeletedUsers
-                if (status || undefined) {
+                if (status) {
                 users.push(data)
             } else {
                 deletedUser.push(data)
@@ -132,7 +132,6 @@ class App extends Component {
 
             })
             this.setState({ 
-                // ...this.state,
                 userList: users,
                 deletedList:deletedUser
             })

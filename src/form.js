@@ -39,27 +39,16 @@ class Form extends Component {
                         value={this.props.Groups}
                         onChange={this.props.handleGroupsChange}
                     />
-                    <br />
-                    {/* <input
-                        name="isActive"
-                        type="checkbox"
-                        placeholder="isActive"
-                        defaultChecked={this.props.status}
-                        // value={this.props.isActive}
-                        onChange={this.props.handleToggleChange}
-                    
-                    /> */}
-                    <label>
+                    {/* <label>
                     <input 
                     name="isActive"
                     type="checkbox"
-                    // defaultChecked={this.props.checked}
-                    // value={this.props.isActive}
-                    // onChange={this.props.handleToggleChange}
-
+                    defaultChecked={false}
+                    checked={!!this.props.isActive}
+                    value={this.props.isActive}
                     />
                     User isActive
-                    </label>
+                    </label> */}
                     <br /> 
                     <menu>
                         <button id="cancel" onClick={this.props.closeDialog}>Cancel </button>

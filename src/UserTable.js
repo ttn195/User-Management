@@ -263,22 +263,22 @@ class UserTable extends Component {
                             editUserAction: false,
                             isEditAction: false,
 
-                    })
+                        })
                     alert("Please activate user in order to edit")
                     } else {
-                    let currUser = {
-                        name: row.original.name,
-                        email: row.original.email,
-                        phone_number: row.original.phone_number,
-                        isActive: row.original.isActive,
-                        Groups: row.original.Groups,
-                    }
-                    this.setState({
-                            editUserAction: true,
-                            editIdx: row.original.id
-                    })
+                        let currUser = {
+                            name: row.original.name,
+                            email: row.original.email,
+                            phone_number: row.original.phone_number,
+                            isActive: row.original.isActive,
+                            Groups: row.original.Groups,
+                        }
+                        this.setState({
+                                editUserAction: true,
+                                editIdx: row.original.id
+                        })
                     this.showEditUserBox(currUser, true)
-                }
+                    }
                 }}
                 title="Edit User"
                 id="editUserBtn"

@@ -88,9 +88,12 @@ class DeletedTable extends Component {
                 accessor: "phone_number"
                 },
                 {
-                id: "isActive",
                 Header: "isActive",
-                accessor: "isActive"
+                Cell: ({row}) => {
+                    return row.original.isActive.toString()
+                },
+                accessor: "isActive",
+                id: "isActive",
                 },
                 {
                 id: "Groups",
